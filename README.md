@@ -217,7 +217,7 @@ enterprise-data-catalog-qa/
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/vinodcse99/ai-powered-qa-automation-workbench.git
 cd enterprise-data-catalog-qa
 ```
 

@@ -1,0 +1,20 @@
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Playwright output
+playwright-report/
+test-results/
+playwright/.cache/
+
+# Build and coverage output
+dist/
+coverage/
+
+# Logs and operating system files
+*.log
+.DS_Store
+Thumbs.db

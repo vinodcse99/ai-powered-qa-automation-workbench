@@ -1,0 +1,117 @@
+
+{
+  "scenarios": [
+    {
+      "id": "TC-SEARCH-01",
+      "title": "Search asset by exact name",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'Sales Transactions' in the search input"
+      ],
+      "expectedResult": "Exactly one matching row displays Sales Transactions."
+    },
+    {
+      "id": "TC-SEARCH-02",
+      "title": "Search assets by partial name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'Customer' in the search input"
+      ],
+      "expectedResult": "Customer Master is displayed as the matching asset."
+    },
+    {
+      "id": "TC-SEARCH-03",
+      "title": "Search assets by owner name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'Finance Data' in the search input"
+      ],
+      "expectedResult": "Sales Transactions is displayed because its owner is Finance Data."
+    },
+    {
+      "id": "TC-SEARCH-04",
+      "title": "Search for a non-existent asset or owner",
+      "category": "Negative",
+      "priority": "Medium",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'XYZ_NonExistent_99' in the search input"
+      ],
+      "expectedResult": "No asset rows are displayed and the status message says 'No assets match your search.'"
+    },
+    {
+      "id": "TC-SEARCH-05",
+      "title": "Search using a single character",
+      "category": "Boundary",
+      "priority": "Medium",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'A' in the search input"
+      ],
+      "expectedResult": "All four assets are displayed because each asset name contains the letter A, ignoring case."
+    },
+    {
+      "id": "TC-SEARCH-06",
+      "title": "Search using a long query",
+      "category": "Boundary",
+      "priority": "Low",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter a 255-character non-matching query"
+      ],
+      "expectedResult": "The application handles the long query without an application error and displays the no-results status."
+    },
+    {
+      "id": "TC-SEARCH-07",
+      "title": "Search with leading and trailing whitespace",
+      "category": "Edge",
+      "priority": "Low",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter '  Sales Transactions  ' in the search input"
+      ],
+      "expectedResult": "Whitespace is trimmed and exactly one Sales Transactions row is displayed."
+    },
+    {
+      "id": "TC-SEARCH-08",
+      "title": "Search using mixed-case characters",
+      "category": "Edge",
+      "priority": "Medium",
+      "preconditions": [
+        "Application is available and asset data is loaded"
+      ],
+      "steps": [
+        "Open the catalog",
+        "Enter 'sAlEs TrAnSaCtIoNs' in the search input"
+      ],
+      "expectedResult": "Exactly one matching Sales Transactions row is displayed."
+    }
+  ]
+}

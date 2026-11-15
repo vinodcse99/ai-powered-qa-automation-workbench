@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enterprise Data Catalog</title>
+<style>
+body{font:16px Arial,sans-serif;margin:0;background:#f4f6fa;color:#172033}header{background:#15233b;color:white;padding:24px 5%}
+main{max-width:1050px;margin:28px auto;padding:0 20px}.panel{background:white;border:1px solid #dce2eb;border-radius:9px;padding:18px;margin-bottom:18px}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}input,select{padding:11px;border:1px solid #aab5c5;border-radius:6px;font-size:15px}
+input{flex:1;min-width:220px}button{padding:10px 14px;border:0;border-radius:6px;background:#2457c5;color:white;cursor:pointer}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #e5e9f0}th{background:#eef2f8}
+#empty{display:none;padding:20px;text-align:center}#details{display:none}
+</style></head><body>
+<header><h1>Enterprise Data Catalog</h1><p>Sample app for UI, API and data-quality test automation</p></header>
+<main>
+<section class="panel toolbar" aria-label="Asset search and filters">
+<label for="search">Search assets</label><input id="search" type="search" placeholder="Search name or owner">
+<label for="type">Asset type</label><select id="type"><option>All</option><option>Table</option><option>API</option><option>File</option></select>
+<button id="clear">Clear filters</button></section>
+<section class="panel"><h2>Data assets <small id="count"></small></h2>
+<table><thead><tr><th>Name</th><th>Domain</th><th>Type</th><th>Owner</th><th>Quality</th><th>Status</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table>
+<div id="empty" role="status">No assets match your search.</div></section>
+<section class="panel" id="details" aria-live="polite"><h2 id="detail-name"></h2>
+<p><b>Asset ID:</b> <span id="detail-id"></span></p><p><b>Description:</b> <span id="detail-description"></span></p>
+<p><b>Owner:</b> <span id="detail-owner"></span></p></section>
+</main>
+<script>
+const search=document.querySelector('#search'), type=document.querySelector('#type'), rows=document.querySelector('#rows');
+let assets=[];
+function render(){const q=search.value.trim().toLowerCase();const selected=type.value;
+const found=assets.filter(a=>(a.name.toLowerCase().includes(q)||a.owner.toLowerCase().includes(q))&&(selected==='All'||a.type===selected));
+rows.innerHTML=found.map(a=>`<tr data-testid="asset-row"><td>${a.name}</td><td>${a.domain}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.score}%</td><td>${a.certified?'Certified':'Not certified'}</td><td><button data-id="${a.id}">View</button></td></tr>`).join('');
+document.querySelector('#count').textContent=`(${found.length} of ${assets.length})`;
+document.querySelector('#empty').style.display=found.length?'none':'block';}
+async function load(){const r=await fetch('/api/assets');if(!r.ok)throw Error('Asset service unavailable');assets=(await r.json()).data;render();}
+search.addEventListener('input',render);type.addEventListener('change',render);
+document.querySelector('#clear').addEventListener('click',()=>{search.value='';type.value='All';render();});
+rows.addEventListener('click',e=>{const b=e.target.closest('button[data-id]');if(!b)return;const a=assets.find(x=>x.id===b.dataset.id);
+document.querySelector('#detail-name').textContent=a.name;document.querySelector('#detail-id').textContent=a.id;
+document.querySelector('#detail-description').textContent=a.description;document.querySelector('#detail-owner').textContent=a.owner;
+document.querySelector('#details').style.display='block';});
+load();
+</script></body></html>

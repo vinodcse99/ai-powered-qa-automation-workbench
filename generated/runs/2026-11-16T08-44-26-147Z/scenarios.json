@@ -1,0 +1,150 @@
+{
+  "scenarios": [
+    {
+      "id": "TC-EDC-001",
+      "title": "Search asset by partial asset name",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "The user is on the Enterprise Data Catalog search page.",
+        "The catalog contains asset 'Customer Master'."
+      ],
+      "steps": [
+        "Navigate to the search bar.",
+        "Enter 'Customer' into the search field.",
+        "Execute the search."
+      ],
+      "expectedResult": "The asset 'Customer Master' owned by 'Data Platform' of type 'Table' is displayed."
+    },
+    {
+      "id": "TC-EDC-002",
+      "title": "Search asset by partial owner name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The user is on the Enterprise Data Catalog search page.",
+        "The catalog contains assets owned by 'Finance Data'."
+      ],
+      "steps": [
+        "Navigate to the search bar.",
+        "Enter 'Finance' into the search field.",
+        "Execute the search."
+      ],
+      "expectedResult": "The asset 'Sales Transactions' owned by 'Finance Data' is displayed."
+    },
+    {
+      "id": "TC-EDC-003",
+      "title": "Case-insensitive asset search",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "The user is on the Enterprise Data Catalog page."
+      ],
+      "steps": [
+        "Navigate to the search field.",
+        "Enter 'product reference api' in lowercase.",
+        "Execute the search."
+      ],
+      "expectedResult": "The asset 'Product Reference API' owned by 'Product Engineering' of type 'API' is displayed."
+    },
+    {
+      "id": "TC-EDC-004",
+      "title": "Filter assets by Table asset type",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The user is viewing the asset catalog."
+      ],
+      "steps": [
+        "Click on the Asset Type filter dropdown.",
+        "Select the 'Table' filter option."
+      ],
+      "expectedResult": "Only assets of type 'Table' ('Customer Master' and 'Sales Transactions') are displayed."
+    },
+    {
+      "id": "TC-EDC-005",
+      "title": "Clear active filters to display all assets",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "An asset type filter such as 'File' is currently active in the catalog view."
+      ],
+      "steps": [
+        "Verify only 'Supplier Data Feed' is shown.",
+        "Click the 'Clear Filters' button."
+      ],
+      "expectedResult": "Active filters are cleared, type filter resets to 'All', and all four assets are listed."
+    },
+    {
+      "id": "TC-EDC-006",
+      "title": "View asset details",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The user is on the asset catalog list page."
+      ],
+      "steps": [
+        "Locate 'Product Reference API' in the asset list.",
+        "Click on 'Product Reference API' to open detail view."
+      ],
+      "expectedResult": "The detail view opens displaying owner 'Product Engineering' and type 'API'."
+    },
+    {
+      "id": "TC-EDC-007",
+      "title": "Search with non-matching asset query",
+      "category": "Negative",
+      "priority": "Medium",
+      "preconditions": [
+        "The user is on the Enterprise Data Catalog search page."
+      ],
+      "steps": [
+        "Enter 'UnknownDataAsset' into the search input.",
+        "Execute the search."
+      ],
+      "expectedResult": "No assets match the search criteria, and an empty state message is shown."
+    },
+    {
+      "id": "TC-EDC-008",
+      "title": "Search asset using single character boundary input",
+      "category": "Boundary",
+      "priority": "Low",
+      "preconditions": [
+        "The user is on the catalog search page."
+      ],
+      "steps": [
+        "Enter 'S' in the search field.",
+        "Execute the search."
+      ],
+      "expectedResult": "Exactly 3 assets containing 'S' in their name or owner are displayed: 'Customer Master', 'Sales Transactions', and 'Supplier Data Feed'."
+    },
+    {
+      "id": "TC-EDC-009",
+      "title": "Search asset with leading and trailing whitespace",
+      "category": "Edge",
+      "priority": "Medium",
+      "preconditions": [
+        "The user is on the Enterprise Data Catalog search page."
+      ],
+      "steps": [
+        "Enter '  Supplier Data Feed  ' with leading and trailing spaces.",
+        "Execute the search."
+      ],
+      "expectedResult": "Search input is trimmed, and 'Supplier Data Feed' owned by 'Procurement Ops' is displayed."
+    },
+    {
+      "id": "TC-EDC-010",
+      "title": "Filter by Table type with non-matching API search string",
+      "category": "Edge",
+      "priority": "Medium",
+      "preconditions": [
+        "The user is on the asset catalog page."
+      ],
+      "steps": [
+        "Select 'Table' from the Asset Type filter.",
+        "Enter 'Product Reference API' in the search input.",
+        "Execute search."
+      ],
+      "expectedResult": "No search results are displayed because no Table asset matches the query 'Product Reference API'."
+    }
+  ]
+}

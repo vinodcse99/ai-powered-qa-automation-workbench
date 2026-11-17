@@ -1,0 +1,113 @@
+{
+  "scenarios": [
+    {
+      "id": "TC001",
+      "title": "Search assets by partial asset name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Catalog page is loaded with default assets displayed"
+      ],
+      "steps": [
+        "Enter 'Customer' in the search bar",
+        "Click Search or press Enter"
+      ],
+      "expectedResult": "Only 'Customer Master' is displayed in the search results."
+    },
+    {
+      "id": "TC002",
+      "title": "Search assets by partial owner name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Catalog page is loaded with default assets displayed"
+      ],
+      "steps": [
+        "Enter 'Finance' in the search bar",
+        "Click Search or press Enter"
+      ],
+      "expectedResult": "Only 'Sales Transactions' owned by 'Finance Data' is displayed."
+    },
+    {
+      "id": "TC003",
+      "title": "Filter assets by asset type API",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "Catalog page is loaded displaying all available assets"
+      ],
+      "steps": [
+        "Select 'API' from the asset type filter dropdown"
+      ],
+      "expectedResult": "Only 'Product Reference API' asset is listed."
+    },
+    {
+      "id": "TC004",
+      "title": "Clear active asset type filters",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "An asset type filter such as 'Table' is currently applied"
+      ],
+      "steps": [
+        "Click the 'Clear Filters' button"
+      ],
+      "expectedResult": "The active filter is cleared and all standard catalog assets are displayed."
+    },
+    {
+      "id": "TC005",
+      "title": "View asset details",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "Catalog page is loaded with listed assets"
+      ],
+      "steps": [
+        "Click on the 'Supplier Data Feed' asset title from the catalog list"
+      ],
+      "expectedResult": "The detail view opens displaying full information for 'Supplier Data Feed' owned by 'Procurement Ops' with type 'File'."
+    },
+    {
+      "id": "TC006",
+      "title": "Search asset name with mixed case text",
+      "category": "Boundary",
+      "priority": "Low",
+      "preconditions": [
+        "Catalog page is loaded"
+      ],
+      "steps": [
+        "Enter 'pRoDuCt' into the search input",
+        "Click Search"
+      ],
+      "expectedResult": "Case-insensitive search returns 'Product Reference API'."
+    },
+    {
+      "id": "TC007",
+      "title": "Search asset name with leading and trailing whitespace",
+      "category": "Edge",
+      "priority": "Low",
+      "preconditions": [
+        "Catalog page is loaded"
+      ],
+      "steps": [
+        "Enter '   Customer Master   ' into the search input",
+        "Click Search"
+      ],
+      "expectedResult": "Leading and trailing whitespace is ignored and 'Customer Master' is displayed."
+    },
+    {
+      "id": "TC008",
+      "title": "Search with non-existent asset name",
+      "category": "Negative",
+      "priority": "Medium",
+      "preconditions": [
+        "Catalog page is loaded"
+      ],
+      "steps": [
+        "Enter 'NonExistentDataAsset999' into the search input",
+        "Click Search"
+      ],
+      "expectedResult": "No assets are displayed in the search results."
+    }
+  ]
+}

@@ -1,224 +1,253 @@
 # AI-Powered QA Automation Workbench
 
-**An AI-assisted test engineering project combining Google Gemini, Playwright, TypeScript, and Page Object Model (POM) to accelerate test design and automation development.**
+**An AI-assisted test engineering project demonstrating how Generative AI can accelerate test design and Playwright automation while keeping execution deterministic and quality under engineering control.**
 
 [![Playwright](https://img.shields.io/badge/Playwright-TypeScript-45ba4b?logo=playwright)](https://playwright.dev/)
-[![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google)](https://ai.google.dev/)
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Runtime-Node.js-339933?logo=nodedotjs)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs)](https://nodejs.org/)
+[![AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google)](https://ai.google.dev/)
 
 ## Project overview
 
-Traditional QA automation requires significant manual effort to translate business requirements into test scenarios, implement automation scripts, maintain locators, and investigate failures.
+Traditional test automation involves significant manual effort to convert business requirements into test scenarios, implement scripts, maintain locators, and validate test results.
 
-This project explores how Generative AI can assist QA engineers with test design and automation development while keeping test execution and pass/fail decisions deterministic.
+This independent portfolio project explores an AI-assisted approach to those activities using Google Gemini, Playwright, TypeScript, and the Page Object Model (POM).
 
-The initial MVP demonstrates an AI-assisted workflow:
+A sample Enterprise Data Catalog application provides realistic workflows for demonstrating search, filtering, asset discovery, and asset details.
 
-**Business requirement → AI-generated test scenarios → AI-generated Playwright automation → Automated execution → Test results**
+The central engineering principle is:
 
-The project uses a sample Enterprise Data Catalog application to demonstrate realistic enterprise search and asset discovery workflows.
+**AI assists with test design and automation generation. Human review and deterministic Playwright assertions remain responsible for quality and execution results.**
 
-This is an independent engineering portfolio project and is not affiliated with or representative of any employer's proprietary systems.
+This is an independent engineering portfolio project. It is not affiliated with or representative of any employer's proprietary systems.
 
 ## Key capabilities
 
-| Capability | Implementation status |
+| Capability | Status |
 |---|---|
 | Sample Enterprise Data Catalog application | Implemented |
 | Playwright TypeScript automation framework | Implemented |
 | Page Object Model | Implemented |
 | UI and API automation | Implemented |
-| AI Test Designer using Gemini | Code implemented; complete standalone execution verification pending |
-| Structured test scenario generation | Eight scenarios prepared |
-| AI Playwright automation generator | Implemented and executed |
-| Generated automation validation | Verified |
-| Generated Chromium test execution | 8 of 8 passed |
-| Greenfield framework generation | Planned |
-| AI Failure Analyzer | Planned |
-| AI Test Data Assistant | Planned |
-| LLM quality evaluation | Planned |
-| MCP-based QA Agent | Planned |
+| Gemini-based AI test design component | Implemented; standalone end-to-end verification pending |
+| AI-assisted Playwright automation generation | Implemented and exercised |
+| Generated test quality gate | Implemented and verified |
+| Scenario-to-test traceability checks | Implemented and verified |
+| Generated Chromium browser execution | 18/18 passed |
+| TypeScript type checking | Passed |
+| AI failure analysis | Planned |
+| AI test data assistant | Planned |
+| LLM evaluation | Planned |
+| MCP-based QA agent | Planned |
 
 ## Architecture
 
 ```text
-                  BUSINESS REQUIREMENT
-                           |
-                           v
-                  AI TEST DESIGNER
-                   Google Gemini
-                           |
-                           v
-                STRUCTURED TEST SCENARIOS
-                      JSON OUTPUT
-                           |
-                           v
-              AI AUTOMATION GENERATOR
-                   Google Gemini
-                           |
-                           v
-                GENERATED PLAYWRIGHT CODE
-                           |
-                    HUMAN REVIEW
-                           |
-                           v
-                PLAYWRIGHT EXECUTION
-                           |
-                           v
-                  TEST RESULTS / REPORT
+             BUSINESS REQUIREMENT
+                      |
+                      v
+              AI TEST DESIGN
+              (Google Gemini)
+                      |
+                      v
+            STRUCTURED SCENARIOS
+                  (JSON)
+                      |
+                      v
+          AI PLAYWRIGHT GENERATOR
+              (Google Gemini)
+                      |
+                      v
+          GENERATED TYPESCRIPT TESTS
+                      |
+                      v
+              STATIC QUALITY GATE
+          Syntax / POM / Traceability
+                      |
+                      v
+                HUMAN REVIEW
+                      |
+                      v
+             PLAYWRIGHT EXECUTION
+                      |
+                      v
+             BROWSER TEST RESULTS
+                 AND REPORTS
 ```
 
-### Technology stack
+## Technology stack
 
-- **Programming:** TypeScript, JavaScript, Node.js
-- **Automation:** Playwright
-- **AI integration:** Google Gemini API, Google GenAI SDK
+- **Languages:** TypeScript, JavaScript
+- **Runtime:** Node.js
+- **UI automation:** Playwright
+- **AI integration:** Google Gemini API and Google GenAI SDK
 - **Design pattern:** Page Object Model
-- **Test coverage:** UI and API
-- **Application:** Node.js-based sample Enterprise Data Catalog
-- **Configuration:** dotenv, JSON
+- **Testing:** UI, API, and service health checks
+- **Data:** JSON test scenarios and sample catalog assets
+- **Configuration:** dotenv and TypeScript configuration
+- **Version control:** Git and GitHub
 - **CI/CD:** GitHub Actions workflow
 
-## Implemented AI agents
+## Implemented components
 
 ### 1. AI Test Designer
 
-**Problem:** Converting business requirements into comprehensive test scenarios manually takes time and can lead to missed negative, boundary, and edge cases.
+The AI Test Designer is intended to transform natural-language business requirements into structured test scenarios.
 
-**Approach:** A Gemini-powered component accepts a natural-language requirement and requests structured test scenarios.
+The scenario structure includes:
 
-The intended scenario structure includes:
-
-- Test case ID
-- Test title
-- Test category: Positive, Negative, Boundary, or Edge
-- Priority: Critical, High, Medium, or Low
+- Unique test case ID
+- Test title and category
+- Priority
 - Preconditions
 - Execution steps
-- Expected result
+- Expected results
 
-**Example business requirement:**
+Test categories include positive, negative, boundary, and edge scenarios.
 
-"As a data catalog user, I want to search assets by name or owner so that I can quickly find the required data asset."
-
-**Output:** Structured JSON test scenarios.
-
-**Status:** Core AI integration and scenario-generation code implemented. Complete standalone execution verification is still pending.
+**Verification note:** The component and its integration code are implemented. Independent end-to-end execution of the standalone Test Designer is still pending.
 
 ### 2. AI Playwright Automation Generator
 
-**Problem:** Writing repetitive automation scripts manually increases development effort and can introduce inconsistent test implementations.
+The automation generator uses AI to produce Playwright TypeScript test specifications from structured scenarios and existing Page Object Model context.
 
-**Approach:** The automation generator uses Gemini to transform structured test scenarios into Playwright TypeScript automation code.
+The generated automation is designed to:
 
-The generator receives:
+- Reuse the existing `CatalogPage` page object.
+- Use Playwright locators and assertions.
+- Maintain scenario identifiers for traceability.
+- Save generated test specifications for review.
+- Keep generated automation separate from the original test framework.
 
-- Structured test scenarios
-- Existing Page Object Model context
-- Application behaviour and supported locators
-- Automation framework requirements
+### 3. AI Test Quality Gate
 
-It generates automation code that uses the existing `CatalogPage` Page Object Model.
+A dedicated quality gate validates generated test code before browser execution.
 
-**Key engineering safeguards:**
+The implemented checks include:
 
-- Generated code is saved separately for review.
-- Generated tests are validated before use.
-- The existing POM is reused.
-- Human review is expected before generated code is accepted.
-- Playwright assertions determine actual test outcomes.
+- TypeScript syntax
+- Playwright imports
+- Page Object Model imports
+- Page object instantiation
+- Detail assertion usage
+- Scenario ID uniqueness
+- Test count
+- Scenario traceability
+- Assertion quality
+- Test implementation quality
 
-**Verified demonstration:**
+The quality gate is a static validation mechanism. It is separate from actual browser execution.
 
-Eight generated search scenarios were executed against the sample application using Chromium.
+### 4. Generated test execution
 
-**Result: 8/8 tests passed.**
+Generated Playwright suites are executed against the sample Enterprise Data Catalog application using Chromium.
 
-The scenarios covered:
+**Latest verified execution:**
 
-1. Exact asset-name search
-2. Partial asset-name search
-3. Owner-based search
-4. Search with no matching results
-5. Single-character search
-6. Long search input
-7. Leading and trailing spaces
-8. Mixed-case search
+| Measurement | Result |
+|---|---:|
+| Generated suite 1 | 8 tests |
+| Generated suite 2 | 10 tests |
+| Total browser tests | 18 |
+| Passed | 18 |
+| Failed | 0 |
+| Static quality checks | 10/10 per suite |
+| TypeScript typecheck | Passed |
 
-## Sample application and automation
+The two generated suites achieved 100% passing results in the recorded execution.
 
-The sample Enterprise Data Catalog contains assets such as:
+These results represent this sample application's test scenarios, not a claim of production-system coverage.
 
-- Customer Master
-- Sales Transactions
-- Product Reference API
-- Supplier Data Feed
+## Sample application
 
-The automation framework covers:
+The sample application represents an enterprise data catalog with four assets:
 
-| Layer | Coverage |
+| Asset | Type | Owner |
+|---|---|---|
+| Customer Master | Table | Data Platform |
+| Sales Transactions | Table | Finance Data |
+| Product Reference API | API | Product Engineering |
+| Supplier Data Feed | File | Procurement Ops |
+
+### Automation coverage
+
+| Layer | Test coverage |
 |---|---|
-| UI | Asset listing, search, filters, empty state, clear filters, asset details |
-| API | Status code, content type, response count, field validation |
+| UI | Asset listing and search |
+| UI | Partial and case-insensitive search |
+| UI | Owner-based search |
+| UI | Asset type filtering |
+| UI | Clear filters |
+| UI | Empty search results |
+| UI | Asset details |
+| API | Response status and content |
+| API | Asset response and field validation |
 | Service | Health endpoint |
-
-The project uses reusable page objects and semantic Playwright locators to support maintainable automation.
 
 ## Project structure
 
 ```text
 enterprise-data-catalog-qa/
-│
-├── .github/
-│   └── workflows/
-│
-├── generated/
-│   └── automation/
-│       └── ai-generated-search.spec.ts
-│
-├── public/
-│   └── index.html
-│
-├── scripts/
-│   └── server.mjs
-│
-├── src/
-│   ├── ai-test-designer.mjs
-│   ├── ai-test-automation-generator.mjs
-│   ├── generate-automation.mjs
-│   └── generate-search-tests.mjs
-│
-├── test-data/
-│   └── generated-search-scenarios.json
-│
-├── tests/
-│   ├── api/
-│   ├── pages/
-│   └── ui/
-│
-├── .gitignore
-├── package.json
-├── package-lock.json
-├── playwright.config.ts
-├── tsconfig.json
-└── README.md
+|
++-- .github/
+|   +-- workflows/
+|
++-- generated/
+|   +-- automation/
+|   |   +-- AI-generated Playwright specifications
+|   +-- rejected/
+|   +-- runs/
+|       +-- scenarios.json
+|       +-- quality-report.json
+|
++-- public/
+|   +-- index.html
+|
++-- scripts/
+|   +-- server.mjs
+|
++-- src/
+|   +-- ai-test-designer.mjs
+|   +-- ai-test-automation-generator.mjs
+|   +-- ai-test-quality-gate.mjs
+|   +-- run-ai-qa-workflow.mjs
+|   +-- validate-ai-test-suite.mjs
+|   +-- generate-automation.mjs
+|   +-- generate-search-tests.mjs
+|
++-- test-data/
+|
++-- tests/
+|   +-- api/
+|   +-- pages/
+|   +-- ui/
+|
++-- .gitignore
++-- package.json
++-- package-lock.json
++-- playwright.config.ts
++-- playwright.generated.config.ts
++-- tsconfig.json
++-- README.md
 ```
+
+Rejected generated specifications and historical run reports are retained separately from the active automation suite for traceability. A rejected specification must not be represented as a passing test.
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js and npm
+- Node.js
+- npm
 - Git
-- Google Gemini API key
+- Google Gemini API key for AI-powered generation
 - Visual Studio Code or another code editor
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/vinodcse99/ai-powered-qa-automation-workbench.git
-cd enterprise-data-catalog-qa
+cd ai-powered-qa-automation-workbench
 ```
 
 ### 2. Install dependencies
@@ -233,7 +262,7 @@ npm install
 npx playwright install
 ```
 
-### 4. Configure Gemini API credentials
+### 4. Configure the Gemini API key
 
 Create a `.env` file in the project root:
 
@@ -243,113 +272,115 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 
 Never commit `.env` or publish API credentials.
 
-### 5. Run the sample application and tests
-
-The following commands are defined in `package.json`:
+### 5. Run the automation
 
 ```bash
-# Start the sample application
-npm start
-
-# Run the Playwright test suite
+# Run the standard Playwright suite
 npm test
-
-# Run tests in headed mode
-npm run test:headed
 
 # Run Chromium tests
 npm run test:chromium
 
-# TypeScript type checking
+# Run generated AI automation suites
+npm run test:ai
+
+# Run TypeScript type checking
 npm run typecheck
 
-# Open the HTML Playwright report
+# Start the sample application
+npm start
+
+# Open the standard Playwright report
 npm run report
 ```
 
-### 6. Run the AI automation generator
+The generated-suite command performs static quality validation before running the generated Playwright tests.
 
-From the project root:
+### 6. Run the AI workflow
+
+The project includes an AI workflow runner:
 
 ```bash
-node src/generate-automation.mjs
+node src/run-ai-qa-workflow.mjs --language English
 ```
 
-This invokes the Gemini-powered automation generator and produces the generated Playwright specification in the `generated/automation/` directory.
+The workflow supports a language option, with English as the default. Provide a business requirement through the workflow's supported input mechanism.
 
-The generated specification can be reviewed and executed using the project's Playwright configuration.
-
-**Note:** The standalone AI Test Designer runner is still undergoing end-to-end verification. Its execution command is intentionally not documented as a verified workflow yet.
+AI-generated output should be reviewed before being accepted into a maintained automation suite.
 
 ## Engineering principles
 
-This project follows several important principles for responsible AI-assisted test engineering.
+### Human-in-the-loop AI
 
-**AI assistance, not uncontrolled automation**
+AI-generated scenarios and automation code are treated as suggestions requiring engineering review.
 
-AI suggests scenarios and generates automation code. Engineers review the generated output before accepting it.
+### Deterministic execution
 
-**Deterministic test execution**
+Playwright assertions and application responses determine pass/fail outcomes. AI-generated explanations do not determine whether a test passes.
 
-Playwright assertions and application responses determine whether tests pass or fail. AI-generated explanations do not determine test results.
-
-**Reusable automation**
+### Reusable automation
 
 The Page Object Model separates application interactions from test specifications.
 
-**Security**
+### Quality before execution
 
-- API keys are stored in environment variables.
-- Environment files are excluded through `.gitignore`.
+Generated test specifications pass through static validation before browser execution.
+
+### Security
+
+- API credentials are stored in environment variables.
+- `.env` files are excluded through `.gitignore`.
 - No production credentials or confidential employer code should be included.
-- Generated automation should be reviewed before execution.
+- Generated automation is reviewed before acceptance.
 
-**Transparency**
+### Transparent reporting
 
-Implemented, experimentally validated, and planned capabilities are explicitly distinguished.
+Implemented, verified, experimentally exercised, and planned capabilities are distinguished rather than presented as equivalent.
 
 ## Current limitations
 
-- The current automation generator uses an existing Page Object Model; it does not independently discover an application and build a complete framework from scratch.
-- AI-generated code requires human review.
-- AI Test Designer standalone end-to-end verification remains pending.
-- Gemini API availability and usage are subject to model and account quotas.
-- The current eight-test demonstration focuses on catalog search workflows.
-- Additional agents are roadmap items, not completed capabilities.
+- The AI Test Designer's standalone end-to-end execution is not yet independently verified.
+- Generated automation requires human review.
+- The current generator uses an existing Page Object Model; it does not independently discover an application and build an entire framework from scratch.
+- The sample application contains a small set of catalog assets.
+- The current browser execution evidence covers the generated Chromium suites.
+- Gemini API availability and usage depend on model and account quotas.
+- Historical rejected generations are retained as evidence and are not part of the passing active suites.
 
 ## Roadmap
 
-| Planned enhancement | Objective |
+| Enhancement | Objective |
 |---|---|
-| Greenfield AI Framework Generator | Generate an initial automation framework and POM using application analysis |
-| AI Failure Analyzer | Analyse Playwright failures and suggest likely root causes |
-| AI Test Data Assistant | Generate and validate synthetic test data |
-| LLM Quality Evaluator | Evaluate correctness, relevance, and hallucination using evaluation frameworks |
-| MCP QA Agent | Enable controlled interaction with approved QA tools |
-| Expanded CI/CD integration | Improve automated validation and reporting |
+| Greenfield AI framework generator | Generate an initial automation framework and POM |
+| AI failure analyzer | Investigate Playwright failures and suggest root causes |
+| AI test data assistant | Generate and validate synthetic test data |
+| LLM quality evaluator | Evaluate response correctness, relevance, and hallucinations |
+| MCP QA agent | Enable controlled interaction with approved QA tools |
+| Expanded CI/CD integration | Extend automated validation and reporting |
 
 ## Interview explanation
 
-"I developed an AI-powered QA Automation Workbench to explore how Generative AI can reduce repetitive test engineering effort.
+"I developed an AI-Powered QA Automation Workbench to explore how Generative AI can reduce repetitive test engineering effort.
 
-The initial implementation integrates Google Gemini with a Playwright TypeScript framework.
+The project integrates Google Gemini with a Playwright TypeScript automation framework. It demonstrates AI-assisted test generation, structured scenario management, Page Object Model reuse, and a dedicated static quality gate.
 
-The workflow starts with business requirements and structured test scenarios. The AI automation generator then uses the scenario definitions and existing Page Object Model context to generate Playwright automation code.
+I also implemented generated-suite validation and executed 18 AI-generated browser tests against a sample Enterprise Data Catalog application. All 18 tests passed in the recorded Chromium execution.
 
-I validated the generated code and executed eight search scenarios against a sample Enterprise Data Catalog application. All eight passed in Chromium.
-
-An important design decision is that AI assists with test design and code generation, while deterministic Playwright assertions control execution and pass/fail results.
-
-The project is being developed incrementally, with framework generation, failure analysis, test data assistance, LLM evaluation, and MCP integration planned as future enhancements."
-
----
+An important design decision was to keep AI assistance separate from test execution decisions. AI helps generate test scenarios and automation code, while static validation, human review, and deterministic Playwright assertions maintain engineering control."
 
 ## About
 
-Independent QA engineering portfolio project focused on:
+Independent QA engineering portfolio project by **Vinod Kumar Gogula**.
+
+Focus areas:
 
 - AI-assisted software testing
 - Generative AI for test design
-- Playwright automation engineering
-- TypeScript and reusable test frameworks
+- Playwright and TypeScript automation
+- Enterprise test automation architecture
+- Page Object Model
 - Responsible AI integration into QA workflows
+
+**GitHub:** https://github.com/vinodcse99
+
+**LinkedIn:** https://linkedin.com/in/vinod-kumar-gogula-sdet/

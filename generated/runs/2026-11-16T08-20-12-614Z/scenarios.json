@@ -1,0 +1,172 @@
+{
+  "scenarios": [
+    {
+      "id": "TC-EDC-001",
+      "title": "Search assets by partial asset name",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Assets 'Customer Master', 'Sales Transactions', 'Product Reference API', and 'Supplier Data Feed' exist in the catalog."
+      ],
+      "steps": [
+        "Navigate to the asset catalog search bar.",
+        "Enter 'Customer' into the search input.",
+        "Execute the search."
+      ],
+      "expectedResult": "The asset list displays 'Customer Master' and excludes non-matching assets."
+    },
+    {
+      "id": "TC-EDC-002",
+      "title": "Search assets by partial owner name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Assets with owners 'Data Platform', 'Finance Data', 'Product Engineering', and 'Procurement Ops' exist."
+      ],
+      "steps": [
+        "Navigate to the asset catalog search bar.",
+        "Enter 'Finance' into the search input.",
+        "Execute the search."
+      ],
+      "expectedResult": "The search result lists 'Sales Transactions' owned by 'Finance Data'."
+    },
+    {
+      "id": "TC-EDC-003",
+      "title": "Verify case-insensitive search behavior",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Asset 'Product Reference API' exists."
+      ],
+      "steps": [
+        "Navigate to the asset catalog search bar.",
+        "Enter 'product reference api' in lower case.",
+        "Execute the search."
+      ],
+      "expectedResult": "'Product Reference API' is successfully returned regardless of casing."
+    },
+    {
+      "id": "TC-EDC-004",
+      "title": "Filter assets by Table type",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Catalog contains assets of types Table, API, and File."
+      ],
+      "steps": [
+        "Locate the Asset Type filter dropdown/options.",
+        "Select 'Table' as the filter type."
+      ],
+      "expectedResult": "Only assets of type Table ('Customer Master' and 'Sales Transactions') are displayed."
+    },
+    {
+      "id": "TC-EDC-005",
+      "title": "Filter assets by API type",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Catalog contains assets of types Table, API, and File."
+      ],
+      "steps": [
+        "Locate the Asset Type filter options.",
+        "Select 'API' as the filter type."
+      ],
+      "expectedResult": "Only asset 'Product Reference API' of type API is displayed."
+    },
+    {
+      "id": "TC-EDC-006",
+      "title": "Filter assets by File type",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Catalog contains assets of types Table, API, and File."
+      ],
+      "steps": [
+        "Locate the Asset Type filter options.",
+        "Select 'File' as the filter type."
+      ],
+      "expectedResult": "Only asset 'Supplier Data Feed' of type File is displayed."
+    },
+    {
+      "id": "TC-EDC-007",
+      "title": "Clear active filters to restore full asset listing",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Asset type filter is currently applied (e.g., 'File')."
+      ],
+      "steps": [
+        "Click the 'Clear Filters' button."
+      ],
+      "expectedResult": "All filters are reset and all 4 catalog assets ('Customer Master', 'Sales Transactions', 'Product Reference API', 'Supplier Data Feed') are displayed."
+    },
+    {
+      "id": "TC-EDC-008",
+      "title": "View details of a selected asset",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Asset list contains 'Supplier Data Feed'."
+      ],
+      "steps": [
+        "Locate 'Supplier Data Feed' in the asset catalog.",
+        "Select/click on 'Supplier Data Feed' to view details."
+      ],
+      "expectedResult": "Asset details view opens showing details for 'Supplier Data Feed', owner 'Procurement Ops', and type 'File'."
+    },
+    {
+      "id": "TC-EDC-009",
+      "title": "Search for non-existent asset name or owner",
+      "category": "Negative",
+      "priority": "Medium",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded."
+      ],
+      "steps": [
+        "Navigate to the asset catalog search bar.",
+        "Enter 'NonExistentAssetXYZ' into the search field.",
+        "Execute the search."
+      ],
+      "expectedResult": "No assets are returned and an empty state or 'no results found' message is displayed."
+    },
+    {
+      "id": "TC-EDC-010",
+      "title": "Search with single character search query",
+      "category": "Boundary",
+      "priority": "Low",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded."
+      ],
+      "steps": [
+        "Navigate to the search bar.",
+        "Enter single character 'Data'.",
+        "Execute the search."
+      ],
+      "expectedResult": "Assets matching 'Data' in name or owner ('Customer Master', 'Supplier Data Feed') are returned."
+    },
+    {
+      "id": "TC-EDC-011",
+      "title": "Search asset name with leading and trailing whitespace",
+      "category": "Edge",
+      "priority": "Medium",
+      "preconditions": [
+        "The Enterprise Data Catalog application is loaded.",
+        "Asset 'Sales Transactions' exists."
+      ],
+      "steps": [
+        "Navigate to the search bar.",
+        "Enter '   Sales Transactions   ' with leading and trailing spaces.",
+        "Execute the search."
+      ],
+      "expectedResult": "Whitespace is trimmed automatically and 'Sales Transactions' asset is successfully returned."
+    }
+  ]
+}

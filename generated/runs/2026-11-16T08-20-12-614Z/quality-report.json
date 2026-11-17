@@ -1,0 +1,289 @@
+{
+  "generatedAt": "2026-11-16T08:21:33.900Z",
+  "automationFile": "C:\\enterprise-data-catalog-playwright-typescript\\enterprise-data-catalog-qa\\generated\\automation\\ai-generated-2026-11-16T08-20-12-614Z.spec.ts",
+  "scenarioCount": 11,
+  "generatedTestCount": 11,
+  "passedChecks": 5,
+  "failedChecks": 4,
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "TypeScript syntax",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Playwright import",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "CatalogPage import",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "CatalogPage instantiation",
+      "passed": false,
+      "details": [
+        "Found 0 instance(s)."
+      ]
+    },
+    {
+      "name": "Scenario ID uniqueness",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Test count",
+      "passed": true,
+      "details": [
+        "Expected 11; found 11."
+      ]
+    },
+    {
+      "name": "Scenario traceability",
+      "passed": false,
+      "details": [
+        "TC-EDC-001: found 0 matching tests.",
+        "TC-EDC-002: found 0 matching tests.",
+        "TC-EDC-003: found 0 matching tests.",
+        "TC-EDC-004: found 0 matching tests.",
+        "TC-EDC-005: found 0 matching tests.",
+        "TC-EDC-006: found 0 matching tests.",
+        "TC-EDC-007: found 0 matching tests.",
+        "TC-EDC-008: found 0 matching tests.",
+        "TC-EDC-009: found 0 matching tests.",
+        "TC-EDC-010: found 0 matching tests.",
+        "TC-EDC-011: found 0 matching tests."
+      ]
+    },
+    {
+      "name": "Test assertion quality",
+      "passed": false,
+      "details": [
+        "TC-EDC-008: View details of a selected asset: no assertions found."
+      ]
+    },
+    {
+      "name": "Test implementation quality",
+      "passed": false,
+      "details": [
+        "TC-EDC-001: Search assets by partial asset name: Test must contain exactly one scenario ID.",
+        "TC-EDC-002: Search assets by partial owner name: Test must contain exactly one scenario ID.",
+        "TC-EDC-003: Verify case-insensitive search behavior: Test must contain exactly one scenario ID.",
+        "TC-EDC-004: Filter assets by Table type: Test must contain exactly one scenario ID.",
+        "TC-EDC-005: Filter assets by API type: Test must contain exactly one scenario ID.",
+        "TC-EDC-006: Filter assets by File type: Test must contain exactly one scenario ID.",
+        "TC-EDC-007: Clear active filters to restore full asset listing: Test must contain exactly one scenario ID.",
+        "TC-EDC-008: View details of a selected asset: Test must contain exactly one scenario ID.",
+        "TC-EDC-008: View details of a selected asset: No meaningful Playwright expect assertion found.",
+        "TC-EDC-009: Search for non-existent asset name or owner: Test must contain exactly one scenario ID.",
+        "TC-EDC-010: Search with single character search query: Test must contain exactly one scenario ID.",
+        "TC-EDC-011: Search asset name with leading and trailing whitespace: Test must contain exactly one scenario ID."
+      ]
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenarioId": "TC-EDC-001",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-002",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-003",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-004",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-005",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-006",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-007",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-008",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-009",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-010",
+      "testCount": 0,
+      "passed": false
+    },
+    {
+      "scenarioId": "TC-EDC-011",
+      "testCount": 0,
+      "passed": false
+    }
+  ],
+  "tests": [
+    {
+      "title": "TC-EDC-001: Search assets by partial asset name",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-002: Search assets by partial owner name",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-003: Verify case-insensitive search behavior",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-004: Filter assets by Table type",
+      "scenarioId": null,
+      "assertionCount": 3,
+      "assertions": [
+        "toHaveCount",
+        "toContainText",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-005: Filter assets by API type",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-006: Filter assets by File type",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-007: Clear active filters to restore full asset listing",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toHaveCount"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-008: View details of a selected asset",
+      "scenarioId": null,
+      "assertionCount": 0,
+      "assertions": [],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID.",
+        "No meaningful Playwright expect assertion found."
+      ]
+    },
+    {
+      "title": "TC-EDC-009: Search for non-existent asset name or owner",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toHaveText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-010: Search with single character search query",
+      "scenarioId": null,
+      "assertionCount": 3,
+      "assertions": [
+        "toHaveCount",
+        "toContainText",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    },
+    {
+      "title": "TC-EDC-011: Search asset name with leading and trailing whitespace",
+      "scenarioId": null,
+      "assertionCount": 2,
+      "assertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "passed": false,
+      "findings": [
+        "Test must contain exactly one scenario ID."
+      ]
+    }
+  ]
+}

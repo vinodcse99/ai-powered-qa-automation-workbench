@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2022", "module": "CommonJS", "moduleResolution": "Node",
-    "strict": true, "esModuleInterop": true, "skipLibCheck": true,
-    "types": ["node", "@playwright/test"], "noEmit": true
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node", "@playwright/test"],
+    "noEmit": true
   },
-  "include": ["playwright.config.ts", "tests/**/*.ts"]
+  "include": [
+    "playwright.config.ts",
+    "playwright.generated.config.ts",
+    "tests/**/*.ts",
+    "generated/**/*.ts"
+  ]
 }

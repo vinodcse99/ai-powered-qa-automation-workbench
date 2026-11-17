@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-11-17T02:46:29.947Z",
+  "automationFile": "C:\\enterprise-data-catalog-playwright-typescript\\enterprise-data-catalog-qa\\generated\\automation\\ai-generated-2026-11-16T07-54-14-548Z.spec.ts",
+  "pageObjectFile": "C:\\enterprise-data-catalog-playwright-typescript\\enterprise-data-catalog-qa\\tests\\pages\\catalog.page.ts",
+  "scenarioCount": 8,
+  "generatedTestCount": 8,
+  "passedChecks": 10,
+  "failedChecks": 0,
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "TypeScript syntax",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Playwright import",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "CatalogPage import",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "CatalogPage instantiation",
+      "passed": true,
+      "details": [
+        "Found 1 instance(s)."
+      ]
+    },
+    {
+      "name": "Page Object detail assertions",
+      "passed": true,
+      "details": [
+        "Verified expectAssetDetails() assertions: 3."
+      ]
+    },
+    {
+      "name": "Scenario ID uniqueness",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Test count",
+      "passed": true,
+      "details": [
+        "Expected 8; found 8."
+      ]
+    },
+    {
+      "name": "Scenario traceability",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Test assertion quality",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Test implementation quality",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenarioId": "TC001",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC002",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC003",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC004",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC005",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC006",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC007",
+      "testCount": 1,
+      "passed": true
+    },
+    {
+      "scenarioId": "TC008",
+      "testCount": 1,
+      "passed": true
+    }
+  ],
+  "tests": [
+    {
+      "title": "TC001: Search assets by partial asset name",
+      "scenarioId": "TC001",
+      "assertionCount": 2,
+      "directAssertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC002: Search assets by partial owner name",
+      "scenarioId": "TC002",
+      "assertionCount": 3,
+      "directAssertions": [
+        "toHaveCount",
+        "toContainText",
+        "toContainText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC003: Filter assets by asset type API",
+      "scenarioId": "TC003",
+      "assertionCount": 2,
+      "directAssertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC004: Clear active asset type filters",
+      "scenarioId": "TC004",
+      "assertionCount": 1,
+      "directAssertions": [
+        "toHaveCount"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC005: View asset details",
+      "scenarioId": "TC005",
+      "assertionCount": 3,
+      "directAssertions": [],
+      "delegatedDetailsAssertions": 3,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC006: Search asset name with mixed case text",
+      "scenarioId": "TC006",
+      "assertionCount": 2,
+      "directAssertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC007: Search asset name with leading and trailing whitespace",
+      "scenarioId": "TC007",
+      "assertionCount": 2,
+      "directAssertions": [
+        "toHaveCount",
+        "toContainText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    },
+    {
+      "title": "TC008: Search with non-existent asset name",
+      "scenarioId": "TC008",
+      "assertionCount": 2,
+      "directAssertions": [
+        "toHaveCount",
+        "toHaveText"
+      ],
+      "delegatedDetailsAssertions": 0,
+      "passed": true,
+      "findings": []
+    }
+  ]
+}

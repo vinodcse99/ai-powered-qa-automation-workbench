@@ -1,0 +1,142 @@
+{
+  "scenarios": [
+    {
+      "id": "TC001",
+      "title": "Search asset by partial asset name",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Catalog contains default test assets including 'Customer Master'"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Enter 'Customer' into the search input field",
+        "Execute search"
+      ],
+      "expectedResult": "'Customer Master' asset is displayed in the search results."
+    },
+    {
+      "id": "TC002",
+      "title": "Search asset by partial owner name",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Catalog contains asset 'Sales Transactions' owned by 'Finance Data'"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Enter 'Finance' into the search input field",
+        "Execute search"
+      ],
+      "expectedResult": "'Sales Transactions' asset owned by 'Finance Data' is displayed in the search results."
+    },
+    {
+      "id": "TC003",
+      "title": "Case-insensitive asset search",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Catalog contains asset 'Product Reference API'"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Enter 'product reference' in lowercase into the search field",
+        "Execute search"
+      ],
+      "expectedResult": "'Product Reference API' is successfully matched and displayed."
+    },
+    {
+      "id": "TC004",
+      "title": "Filter assets by asset type API",
+      "category": "Positive",
+      "priority": "High",
+      "preconditions": [
+        "Enterprise Data Catalog application is open"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Select 'API' from the asset type filter"
+      ],
+      "expectedResult": "Only assets of type 'API' (such as 'Product Reference API') are displayed."
+    },
+    {
+      "id": "TC005",
+      "title": "Clear active asset type filters",
+      "category": "Positive",
+      "priority": "Medium",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Filter 'File' is currently active"
+      ],
+      "steps": [
+        "Observe filtered list showing only File assets",
+        "Click the 'Clear Filters' button"
+      ],
+      "expectedResult": "All active filters are cleared and all default assets (Table, API, File) are displayed."
+    },
+    {
+      "id": "TC006",
+      "title": "View asset details",
+      "category": "Positive",
+      "priority": "Critical",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Asset 'Customer Master' is displayed in the asset list"
+      ],
+      "steps": [
+        "Locate 'Customer Master' in the catalog list",
+        "Click on 'Customer Master' asset item"
+      ],
+      "expectedResult": "The detailed view for 'Customer Master' asset is displayed."
+    },
+    {
+      "id": "TC007",
+      "title": "Search for non-existent asset or owner name",
+      "category": "Negative",
+      "priority": "Medium",
+      "preconditions": [
+        "Enterprise Data Catalog application is open"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Enter 'UnknownAsset999' into the search input field",
+        "Execute search"
+      ],
+      "expectedResult": "No assets are displayed and a 'No results found' message is shown."
+    },
+    {
+      "id": "TC008",
+      "title": "Search with leading and trailing whitespace",
+      "category": "Edge",
+      "priority": "Low",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Catalog contains 'Supplier Data Feed'"
+      ],
+      "steps": [
+        "Navigate to the asset catalog page",
+        "Enter '   Supplier   ' with spaces into the search field",
+        "Execute search"
+      ],
+      "expectedResult": "Leading and trailing whitespace is ignored/trimmed, displaying 'Supplier Data Feed'."
+    },
+    {
+      "id": "TC009",
+      "title": "Reset filtered asset view using 'All' type filter",
+      "category": "Boundary",
+      "priority": "Low",
+      "preconditions": [
+        "Enterprise Data Catalog application is open",
+        "Asset type filter 'Table' is currently selected"
+      ],
+      "steps": [
+        "Navigate to the asset type filter options",
+        "Select 'All' from the filter list"
+      ],
+      "expectedResult": "The filter resets to show all asset types (Table, API, File)."
+    }
+  ]
+}

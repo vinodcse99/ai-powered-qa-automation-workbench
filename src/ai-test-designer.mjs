@@ -2,7 +2,6 @@
 import { GoogleGenAI } from '@google/genai';
 import 'dotenv/config';
 
-// 1. Read Gemini API key from .env
 const apiKey = process.env.GEMINI_API_KEY;
 
 if (!apiKey) {
@@ -11,12 +10,10 @@ if (!apiKey) {
   );
 }
 
-// 2. Initialize Gemini AI with timeout and retry configuration
 const ai = new GoogleGenAI({
   apiKey,
   httpOptions: {
     timeout: 60000,
-
     retryOptions: {
       attempts: 3,
       initialDelay: 1,
@@ -27,7 +24,6 @@ const ai = new GoogleGenAI({
   }
 });
 
-// 3. Define the expected JSON structure
 const testCaseSchema = {
   type: 'object',
   properties: {
@@ -38,30 +34,24 @@ const testCaseSchema = {
         properties: {
           id: { type: 'string' },
           title: { type: 'string' },
-
           category: {
             type: 'string',
             enum: ['Positive', 'Negative', 'Boundary', 'Edge']
           },
-
           priority: {
             type: 'string',
             enum: ['Critical', 'High', 'Medium', 'Low']
           },
-
           preconditions: {
             type: 'array',
             items: { type: 'string' }
           },
-
           steps: {
             type: 'array',
             items: { type: 'string' }
           },
-
           expectedResult: { type: 'string' }
         },
-
         required: [
           'id',
           'title',
@@ -74,14 +64,14 @@ const testCaseSchema = {
       }
     }
   },
-
   required: ['scenarios']
 };
 
-// 4. Generate test scenarios using Gemini AI
-export async function generateTestScenarios(requirement) {
-
-  // Validate the input requirement
+// Generate structured test scenarios.
+export async function generateTestScenarios(
+  requirement,
+  language = 'English'
+) {
   if (
     typeof requirement !== 'string' ||
     requirement.trim().length < 10
@@ -91,106 +81,134 @@ export async function generateTestScenarios(requirement) {
     );
   }
 
+  if (
+    typeof language !== 'string' ||
+    !language.trim()
+  ) {
+    throw new Error(
+      'Please provide a valid output language.'
+    );
+  }
+
+  const supportedFeatures = `
+APPLICATION:
+Enterprise Data Catalog demo application.
+
+SUPPORTED FEATURES:
+1. Search assets by partial asset name.
+2. Search assets by partial owner name.
+3. Case-insensitive search.
+4. Search with leading and trailing whitespace.
+5. Filter assets by All, Table, API and File.
+6. Clear active filters.
+7. View an asset.
+
+VERIFIED DATA:
+- Customer Master | Data Platform | Table
+- Sales Transactions | Finance Data | Table
+- Product Reference API | Product Engineering | API
+- Supplier Data Feed | Procurement Ops | File
+
+IMPORTANT:
+Generate scenarios only for the supported application features.
+Do not invent login, permissions, database editing, deletion,
+upload, export or other unsupported functionality.
+`;
+
+  const prompt = `
+You are a senior QA automation architect.
+
+Analyze the following business requirement:
+
+${requirement.trim()}
+
+${supportedFeatures}
+
+OUTPUT LANGUAGE:
+${language.trim()}
+
+Write scenario titles, preconditions, test steps and expected
+results in ${language.trim()}.
+
+Keep scenario IDs and category/priority enum values in English.
+Keep technical identifiers and product names unchanged.
+
+Generate practical test scenarios covering:
+1. Positive scenarios
+2. Negative scenarios
+3. Boundary conditions
+4. Edge cases
+
+Each scenario must include:
+- Unique scenario ID
+- Clear title
+- Category
+- Priority
+- Preconditions
+- Practical test steps
+- Expected result
+
+Do not invent unsupported application behavior.
+Return only data matching the supplied JSON schema.
+`;
+
   try {
-
     console.log('Sending requirement to Gemini AI...');
+    console.log(`Requested language: ${language}`);
 
-    // Send requirement to Gemini API
     const response = await ai.models.generateContent({
-
       model: 'gemini-3.5-flash',
-
-      contents: `
-        You are a senior QA automation architect
-        with expertise in enterprise software testing.
-
-        Analyze this business requirement:
-
-        ${requirement}
-
-        Generate comprehensive test scenarios covering:
-
-        1. Positive scenarios
-        2. Negative scenarios
-        3. Boundary conditions
-        4. Edge cases
-
-        Each scenario must include:
-
-        - Unique scenario ID
-        - Clear scenario title
-        - Category
-        - Priority
-        - Preconditions
-        - Practical test steps
-        - Expected result
-
-        Do not invent application features that are
-        not supported by the requirement.
-
-        Return only data matching the requested JSON schema.
-      `,
-
+      contents: prompt,
       config: {
         responseMimeType: 'application/json',
         responseJsonSchema: testCaseSchema
       }
     });
 
-    // 5. Validate AI response
     if (!response.text) {
       throw new Error('Gemini returned an empty response.');
     }
 
-    // 6. Convert JSON string into JavaScript object
     const result = JSON.parse(response.text);
 
-    // Basic response validation
-    if (!result || !Array.isArray(result.scenarios)) {
+    if (
+      !result ||
+      !Array.isArray(result.scenarios) ||
+      result.scenarios.length === 0
+    ) {
       throw new Error('Invalid test scenario response.');
     }
 
-    console.log('Test scenarios generated successfully.');
+    console.log(
+      `Successfully generated ${result.scenarios.length} scenarios.`
+    );
 
     return result;
 
   } catch (error) {
-
     console.error(
       'AI Test Generation Failed:',
       error.message
     );
 
-    // Handle API timeout
     if (error.status === 504) {
-      throw new Error(
-        'Gemini API timeout. Please try again later.'
-      );
+      throw new Error('Gemini API timeout. Please retry later.');
     }
 
-    // Handle temporary Gemini service unavailability
-if (error.status === 503) {
-  throw new Error(
-    'Gemini service is currently busy. Please try again after some time.'
-  );
-}
+    if (error.status === 503) {
+      throw new Error('Gemini service is busy. Please retry later.');
+    }
 
-    // Handle rate limit
     if (error.status === 429) {
-      throw new Error(
-        'Gemini API rate limit reached. Please wait and retry.'
-      );
+      throw new Error('Gemini API rate limit reached.');
     }
 
-    
-    // Handle authentication and permission errors
     if (error.status === 401 || error.status === 403) {
       throw new Error(
-        'Gemini API authentication or permission error. Check your API key.'
+        'Gemini authentication or permission error. Check your API key.'
       );
     }
 
-    // Handle other errors
     throw error;
   }
 }

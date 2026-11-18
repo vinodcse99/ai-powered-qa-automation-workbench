@@ -20,7 +20,7 @@ export function getRunPaths(root, runId) {
     qualityReport: path.join(runDirectory, 'quality-report.json'),
     manifestFile: path.join(runDirectory, 'run-manifest.json'),
     approvalFile: path.join(runDirectory, 'approval.json'),
-    automationFile: path.join(root, 'generated', 'automation', \`ai-generated-\${runId}.spec.ts\`)
+    automationFile: path.join(root, 'generated', 'automation', `ai-generated-${runId}.spec.ts`)
   };
 }
 
@@ -61,7 +61,7 @@ export async function verifyRunApproval(root, runId) {
   const currentHashes = await getRunHashes(paths);
   for (const key of ['scenarios', 'automation', 'qualityReport']) {
     if (currentHashes[key] !== approval.hashes?.[key]) {
-      throw new Error(\`\${key} changed after approval. Review and approve again.\`);
+      throw new Error(`${key} changed after approval. Review and approve again.`);
     }
   }
 

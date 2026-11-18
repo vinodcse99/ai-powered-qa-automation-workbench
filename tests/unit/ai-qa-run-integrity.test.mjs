@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {
@@ -20,7 +20,10 @@ async function createApprovedFixture(t) {
   await mkdir(path.dirname(paths.automationFile), { recursive: true });
 
   await writeFile(paths.scenarioFile, JSON.stringify({ scenarios: [{ id: 'TC-001' }] }));
-  await writeFile(paths.automationFile, "import { test, expect } from '@playwright/test';\\ntest('TC-001', async () => { expect(1).toBe(1); });\\n");
+  await writeFile(
+    paths.automationFile,
+    "import { test, expect } from '@playwright/test';\ntest('TC-001', async () => { expect(1).toBe(1); });\n"
+  );
   await writeFile(paths.qualityReport, JSON.stringify({ status: 'PASS', passedChecks: 10, failedChecks: 0 }));
 
   const manifest = {
@@ -63,7 +66,7 @@ for (const [label, fileKey] of [
   ['generated automation file', 'automationFile'],
   ['quality report', 'qualityReport']
 ]) {
-  test(\`rejects a modified \${label} after approval\`, async t => {
+  test('rejects a modified ' + label + ' after approval', async t => {
     const { root, paths } = await createApprovedFixture(t);
     await writeFile(paths[fileKey], 'tampered after approval');
     await assert.rejects(
@@ -75,7 +78,7 @@ for (const [label, fileKey] of [
 
 test('rejects a run whose manifest is not approved', async t => {
   const { root, paths } = await createApprovedFixture(t);
-  const manifest = JSON.parse(await (await import('node:fs/promises')).readFile(paths.manifestFile, 'utf8'));
+  const manifest = JSON.parse(await readFile(paths.manifestFile, 'utf8'));
   manifest.status = 'AWAITING_REVIEW';
   await writeFile(paths.manifestFile, JSON.stringify(manifest));
   await assert.rejects(verifyRunApproval(root, runId), /not approved/);
@@ -83,7 +86,7 @@ test('rejects a run whose manifest is not approved', async t => {
 
 test('rejects a manifest pointing to a different generated spec', async t => {
   const { root, paths } = await createApprovedFixture(t);
-  const manifest = JSON.parse(await (await import('node:fs/promises')).readFile(paths.manifestFile, 'utf8'));
+  const manifest = JSON.parse(await readFile(paths.manifestFile, 'utf8'));
   manifest.automationFile = 'generated/automation/another-run.spec.ts';
   await writeFile(paths.manifestFile, JSON.stringify(manifest));
   await assert.rejects(verifyRunApproval(root, runId), /path does not match/);

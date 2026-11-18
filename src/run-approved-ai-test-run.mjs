@@ -5,6 +5,17 @@ import { getRunPaths, assertValidRunId } from './ai-qa-run-integrity.mjs';
 
 const root = process.cwd();
 
+function runCommand(command, args, env) {
+  const result = spawnSync(command, args, {
+    cwd: root,
+    env,
+    stdio: 'inherit',
+    shell: process.platform === 'win32'
+  });
+  if (result.error) throw result.error;
+  return result.status ?? 1;
+}
+
 async function execute(runId) {
   assertValidRunId(runId);
   const paths = getRunPaths(root, runId);
@@ -13,29 +24,29 @@ async function execute(runId) {
     throw new Error('Execution blocked: this run has not been approved.');
   }
 
-  const cli = path.join(root, 'node_modules', '@playwright', 'test', 'cli.js');
-  const result = spawnSync(process.execPath, [
-    cli, 'test', '--config=playwright.generated.config.ts'
-  ], {
-    cwd: root,
-    env: { ...process.env, AI_QA_RUN_ID: runId },
-    stdio: 'inherit'
-  });
+  console.log('\n[PRE-EXECUTION] TypeScript project check');
+  const typecheckExit = runCommand('npm', ['run', 'typecheck'], process.env);
+  if (typecheckExit !== 0) {
+    throw new Error(`Execution blocked: TypeScript check failed (exit ${typecheckExit}).`);
+  }
 
-  const exitCode = result.status ?? 1;
+  console.log('\n[EXECUTION] Running only the approved generated spec');
+  const env = { ...process.env, AI_QA_RUN_ID: runId };
+  const cli = path.join(root, 'node_modules', '@playwright', 'test', 'cli.js');
+  const exitCode = runCommand(process.execPath, [cli, 'test', '--config=playwright.generated.config.ts'], env);
+
   manifest.status = exitCode === 0 ? 'EXECUTED' : 'EXECUTION_FAILED';
   manifest.executedAt = new Date().toISOString();
   manifest.executionExitCode = exitCode;
   await writeFile(paths.manifestFile, JSON.stringify(manifest, null, 2));
 
-  if (result.error) throw result.error;
   if (exitCode !== 0) process.exitCode = exitCode;
   else console.log('\nApproved run completed successfully:', runId);
 }
 
 const runId = process.argv[2];
 if (!runId) {
-  console.error('Usage: npm run test:ai -- <run-id>');
+  console.error('Usage: npm run ai:execute -- <run-id>');
   process.exitCode = 1;
 } else {
   execute(runId).catch(error => {

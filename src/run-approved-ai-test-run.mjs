@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { getRunPaths, assertValidRunId } from './ai-qa-run-integrity.mjs';
+import { assertValidRunId, verifyRunApproval } from './ai-qa-run-integrity.mjs';
 
 const root = process.cwd();
 
@@ -18,17 +18,15 @@ function runNodeScript(scriptPath, args = [], env = process.env) {
 
 async function execute(runId) {
   assertValidRunId(runId);
-  const paths = getRunPaths(root, runId);
-  const manifest = JSON.parse(await readFile(paths.manifestFile, 'utf8'));
-  if (manifest.status !== 'APPROVED') {
-    throw new Error('Execution blocked: this run has not been approved.');
-  }
+  const verified = await verifyRunApproval(root, runId);
+  const { paths, manifest } = verified;
 
-  console.log('\n[PRE-EXECUTION] TypeScript project check');
+  console.log('\n[PRE-EXECUTION] Approval and file-integrity verified.');
+  console.log('[PRE-EXECUTION] TypeScript project check');
   const tscPath = path.join(root, 'node_modules', 'typescript', 'bin', 'tsc');
   const typecheckExit = runNodeScript(tscPath, ['--noEmit']);
   if (typecheckExit !== 0) {
-    throw new Error(`Execution blocked: TypeScript check failed (exit ${typecheckExit}).`);
+    throw new Error(\`Execution blocked: TypeScript check failed (exit \${typecheckExit}).\`);
   }
 
   console.log('\n[EXECUTION] Running only the approved generated spec');

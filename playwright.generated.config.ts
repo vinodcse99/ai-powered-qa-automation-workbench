@@ -1,10 +1,13 @@
-﻿
 import { defineConfig, devices } from '@playwright/test';
+
+const runId = process.env.AI_QA_RUN_ID;
+const selectedSpec = runId
+  ? `ai-generated-${runId}.spec.ts`
+  : '__no-approved-run-selected__.spec.ts';
 
 export default defineConfig({
   testDir: './generated/automation',
-  testMatch: 'ai-generated-20*.spec.ts',
-
+  testMatch: selectedSpec,
   globalSetup: './src/validate-ai-test-suite.mjs',
 
   fullyParallel: true,

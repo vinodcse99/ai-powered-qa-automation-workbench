@@ -5,12 +5,12 @@ import { getRunPaths, assertValidRunId } from './ai-qa-run-integrity.mjs';
 
 const root = process.cwd();
 
-function runCommand(command, args, env) {
-  const result = spawnSync(command, args, {
+function runNodeScript(scriptPath, args = [], env = process.env) {
+  const result = spawnSync(process.execPath, [scriptPath, ...args], {
     cwd: root,
     env,
     stdio: 'inherit',
-    shell: process.platform === 'win32'
+    shell: false
   });
   if (result.error) throw result.error;
   return result.status ?? 1;
@@ -25,7 +25,8 @@ async function execute(runId) {
   }
 
   console.log('\n[PRE-EXECUTION] TypeScript project check');
-  const typecheckExit = runCommand('npm', ['run', 'typecheck'], process.env);
+  const tscPath = path.join(root, 'node_modules', 'typescript', 'bin', 'tsc');
+  const typecheckExit = runNodeScript(tscPath, ['--noEmit']);
   if (typecheckExit !== 0) {
     throw new Error(`Execution blocked: TypeScript check failed (exit ${typecheckExit}).`);
   }
@@ -33,7 +34,7 @@ async function execute(runId) {
   console.log('\n[EXECUTION] Running only the approved generated spec');
   const env = { ...process.env, AI_QA_RUN_ID: runId };
   const cli = path.join(root, 'node_modules', '@playwright', 'test', 'cli.js');
-  const exitCode = runCommand(process.execPath, [cli, 'test', '--config=playwright.generated.config.ts'], env);
+  const exitCode = runNodeScript(cli, ['test', '--config=playwright.generated.config.ts'], env);
 
   manifest.status = exitCode === 0 ? 'EXECUTED' : 'EXECUTION_FAILED';
   manifest.executedAt = new Date().toISOString();

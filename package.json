@@ -7,7 +7,9 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:chromium": "playwright test --project=chromium",
-    "test:ai": "playwright test --config=playwright.generated.config.ts",
+    "test:ai": "node src/run-approved-ai-test-run.mjs",
+    "ai:approve": "node src/approve-ai-test-run.mjs",
+    "ai:execute": "node src/run-approved-ai-test-run.mjs",
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit"
   },

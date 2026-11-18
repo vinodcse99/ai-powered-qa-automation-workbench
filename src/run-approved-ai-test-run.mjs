@@ -26,7 +26,7 @@ async function execute(runId) {
   const tscPath = path.join(root, 'node_modules', 'typescript', 'bin', 'tsc');
   const typecheckExit = runNodeScript(tscPath, ['--noEmit']);
   if (typecheckExit !== 0) {
-    throw new Error(\`Execution blocked: TypeScript check failed (exit \${typecheckExit}).\`);
+    throw new Error(`Execution blocked: TypeScript check failed (exit ${typecheckExit}).`);
   }
 
   console.log('\n[EXECUTION] Running only the approved generated spec');

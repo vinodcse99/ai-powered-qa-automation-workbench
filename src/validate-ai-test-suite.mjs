@@ -1,58 +1,41 @@
-﻿import { readdir, readFile } from 'node:fs/promises';
-import path from 'node:path';
-
+import { readFile } from 'node:fs/promises';
 import {
-  validateGeneratedAutomation
-} from './ai-test-quality-gate.mjs';
+  assertValidRunId,
+  getRunPaths,
+  getRunHashes
+} from './ai-qa-run-integrity.mjs';
 
 const root = process.cwd();
 
 export default async function globalSetup() {
-  const automationDirectory = path.join(
-    root, 'generated', 'automation'
-  );
+  const runId = process.env.AI_QA_RUN_ID;
+  assertValidRunId(runId);
+  const paths = getRunPaths(root, runId);
 
-  const runsDirectory = path.join(
-    root, 'generated', 'runs'
-  );
+  const [manifest, approval, quality] = await Promise.all([
+    readFile(paths.manifestFile, 'utf8').then(JSON.parse),
+    readFile(paths.approvalFile, 'utf8').then(JSON.parse),
+    readFile(paths.qualityReport, 'utf8').then(JSON.parse)
+  ]);
 
-  const files = await readdir(automationDirectory);
-
-  const generatedSpecs = files.filter(file =>
-    /^ai-generated-\d{4}-\d{2}-\d{2}T.*\.spec\.ts$/.test(file)
-  );
-
-  if (generatedSpecs.length === 0) {
-    throw new Error(
-      'AI Quality Gate: No timestamped generated test specifications found.'
-    );
+  if (manifest.runId !== runId || manifest.status !== 'APPROVED') {
+    throw new Error('AI Quality Gate: selected run is not approved.');
+  }
+  if (approval.runId !== runId || approval.decision !== 'APPROVED') {
+    throw new Error('AI Quality Gate: valid approval record not found.');
+  }
+  if (quality.status !== 'PASS' || quality.failedChecks !== 0) {
+    throw new Error('AI Quality Gate: stored quality report is not PASS.');
   }
 
-  console.log('\nValidating generated Playwright suites...');
-
-  for (const file of generatedSpecs) {
-    const runId = file.slice(
-      'ai-generated-'.length,
-      -'.spec.ts'.length
-    );
-
-    const runDirectory = path.join(runsDirectory, runId);
-    const scenarioFile = path.join(runDirectory, 'scenarios.json');
-
-    const scenarioData = JSON.parse(
-      await readFile(scenarioFile, 'utf-8')
-    );
-
-    if (!Array.isArray(scenarioData.scenarios)) {
-      throw new Error(`Invalid scenarios file for run ${runId}.`);
+  const currentHashes = await getRunHashes(paths);
+  for (const key of ['scenarios', 'automation', 'qualityReport']) {
+    if (currentHashes[key] !== approval.hashes?.[key]) {
+      throw new Error(`AI Quality Gate: ${key} changed after approval. Review and approve again.`);
     }
-
-    await validateGeneratedAutomation({
-      scenarios: scenarioData.scenarios,
-      automationFile: path.join(automationDirectory, file),
-      reportFile: path.join(runDirectory, 'quality-report.json')
-    });
   }
 
-  console.log('\nAI Quality Gate: All generated suites passed.');
+  console.log('\nAI Quality Gate: approval and SHA-256 integrity verified.');
+  console.log('Selected run:', runId);
+  console.log('Only this run will be collected by Playwright.');
 }

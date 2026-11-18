@@ -3,28 +3,33 @@ import { stdin, stdout } from 'node:process';
 import { userInfo } from 'node:os';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import {
-  assertValidRunId,
-  getRunPaths,
-  getRunHashes
-} from './ai-qa-run-integrity.mjs';
+import { getRunPaths, getRunHashes } from './ai-qa-run-integrity.mjs';
 
 const root = process.cwd();
 
 async function approveRun(runId) {
-  assertValidRunId(runId);
   const paths = getRunPaths(root, runId);
   const manifest = JSON.parse(await readFile(paths.manifestFile, 'utf8'));
   const quality = JSON.parse(await readFile(paths.qualityReport, 'utf8'));
 
-  if (manifest.runId !== runId || manifest.status !== 'AWAITING_REVIEW') {
-    throw new Error('Run is not awaiting review or its manifest is inconsistent.');
+  if (manifest.runId !== runId || !['AWAITING_REVIEW', 'APPROVED'].includes(manifest.status)) {
+    throw new Error('Run is not available for review or its manifest is inconsistent.');
   }
   if (quality.status !== 'PASS' || quality.failedChecks !== 0) {
     throw new Error('Approval blocked: the quality report is not a clean PASS.');
   }
 
   const hashes = await getRunHashes(paths);
+  let previousApproval = null;
+  try {
+    previousApproval = JSON.parse(await readFile(paths.approvalFile, 'utf8'));
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  if (previousApproval && Object.keys(hashes).every(key => previousApproval.hashes?.[key] === hashes[key])) {
+    throw new Error('This exact run is already approved and unchanged.');
+  }
+
   console.log('\nReview this generated automation before approving:');
   console.log(path.relative(root, paths.automationFile));
   console.log('Scenarios:', manifest.scenarioCount);
@@ -51,9 +56,10 @@ async function approveRun(runId) {
     approvedBy: userInfo().username || 'local-user',
     hashes
   };
-  await writeFile(paths.approvalFile, JSON.stringify(approval, null, 2), { flag: 'wx' });
+  await writeFile(paths.approvalFile, JSON.stringify(approval, null, 2));
   manifest.status = 'APPROVED';
   manifest.approvedAt = approval.approvedAt;
+  manifest.updatedAt = approval.approvedAt;
   await writeFile(paths.manifestFile, JSON.stringify(manifest, null, 2));
   console.log('\nAPPROVED. Execution is now available for this run only.');
 }
